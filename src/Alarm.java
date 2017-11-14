@@ -66,7 +66,7 @@ public class Alarm {
                 options[0] = "Snooze(" + snoozeCount + ")";
 
             int choice = -1;
-            choice = JOptionPane.showOptionDialog(null, "Alarm", "alaram", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[1]);
+            choice = JOptionPane.showOptionDialog(null, message, "Alarm", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[1]);
 
             //handle choice
             if (choice == 0) {
@@ -79,7 +79,6 @@ public class Alarm {
                 Model.getInstance().save();
             } else if (choice == 1) {
                 //dismiss
-                //todo remove time  the alarm from the array
                 Model db = Model.getInstance();
                 Alarm thisAlarm = getInstance();
                 db.removeAlarm(thisAlarm);

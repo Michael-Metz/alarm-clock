@@ -124,7 +124,7 @@ fabric.properties
 
 # Sonarlint plugin
 .idea/sonarlint
-
+bin/
 ### Java ###
 # Compiled class file
 *.class

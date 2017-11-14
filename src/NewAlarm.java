@@ -85,11 +85,12 @@ public class NewAlarm {
 				SimpleDateFormat sdf = new SimpleDateFormat("HH-mm-ss");
 				String dateS = ((JTextField)dateChooser.getDateEditor().getUiComponent()).getText() + "-" + sdf.format((Date)timeSpinner.getValue());
 				System.out.println("new alarm added for " + dateS + ", " + textField.getText());
-				SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd-HH-mm-ss");
+
+
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
 				Date addDate = new Date();
 				try {
 					addDate = dateFormat.parse(dateS);
-					System.out.println("added!");
 					//Model.getInstance().readXml();
 					AlarmClockDesign.getInstance().addAlarmlist(dateS);
 				} catch (ParseException e1) {

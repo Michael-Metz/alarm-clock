@@ -1,10 +1,4 @@
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -29,7 +23,6 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
-import java.awt.Insets;
 
 public class AlarmClockDesign extends JFrame {
 
@@ -54,6 +47,20 @@ public class AlarmClockDesign extends JFrame {
 			        //model.readXml();
 					AlarmClockDesign frame = new AlarmClockDesign();
 
+					//when the jframe closes, save what ever is in the model to xml.
+					frame.addWindowListener(new WindowAdapter() {
+						/**
+						 * Invoked when a window is in the process of being closed.
+						 * The close operation can be overridden at this point. Saves any alarms in the model to xml.
+						 *
+						 * @param e
+						 */
+						@Override
+						public void windowClosing(WindowEvent e) {
+							super.windowClosing(e);
+							Model.getInstance().save();
+						}
+					});
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
