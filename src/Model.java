@@ -16,7 +16,7 @@ public class Model {
     private static Model singletonModel;
 
     private ArrayList<Alarm> alarms;
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd-HH-mm-ss");
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
     private String xmlFilePath = "alarms.xml";
 
     /**
@@ -24,6 +24,7 @@ public class Model {
      */
     private Model() {
         alarms = new ArrayList<>(6);
+        readXml();
     }
 
     /**
@@ -40,13 +41,19 @@ public class Model {
 
     public void addAlarm(Alarm alarm){
         alarms.add(alarm);
+        save();
     }
     public void removeAlarm(Alarm alarm){
         alarms.remove(alarm);
+        save();
     }
-
-
-
+    public void save(){
+        try{
+            writeXml();
+        }catch (Exception e){
+            System.out.println("can't write xml");
+        }
+    }
 
 
     //Input Output methods below
@@ -57,7 +64,7 @@ public class Model {
      *
      * @throws Exception
      */
-    public void writeXml() throws Exception {
+    private void writeXml() throws Exception {
         // create an XMLOutputFactory
         XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
         // create XMLEventWriter
@@ -131,7 +138,7 @@ public class Model {
      * Read alarms from xml file into the alarms array list.
      * this creates the alarms thus starting their timers.
      */
-    public void readXml() {
+    private void readXml() {
         boolean bDate = false;
         boolean bMessage = false;
         boolean bSnoozeCount = false;

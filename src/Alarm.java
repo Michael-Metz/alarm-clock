@@ -48,7 +48,9 @@ public class Alarm {
     public int getSnoozeCount() {
         return snoozeCount;
     }
-
+    public Alarm getInstance(){
+        return this;
+    }
 
     /**
      * private inner class of alarm that handles sechudling timers to trigger
@@ -74,9 +76,13 @@ public class Alarm {
                 snooze.setTime(60000 + snooze.getTime());
                 setDate(snooze);
                 setAlarm();
+                Model.getInstance().save();
             } else if (choice == 1) {
                 //dismiss
                 //todo remove time  the alarm from the array
+                Model db = Model.getInstance();
+                Alarm thisAlarm = getInstance();
+                db.removeAlarm(thisAlarm);
             }
         }
     }
