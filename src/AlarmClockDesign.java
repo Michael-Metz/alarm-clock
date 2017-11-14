@@ -6,6 +6,7 @@ import java.awt.event.WindowEvent;
 import java.util.Date;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -30,7 +31,7 @@ public class AlarmClockDesign extends JFrame {
 	public EventHandler eventHandler;
 	private JPanel contentPane;
 	private JFrame frame;
-    private JComboBox<String> alarmList;
+    private JComboBox<Alarm> alarmList;
     private JLabel currentTime, alarmTime;
     private final boolean time24Mode = false; //Indicates 24H (true) or 12H (false) time
     JButton newAlarm = new JButton("New Alarm");
@@ -42,15 +43,16 @@ public class AlarmClockDesign extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+
+		Model model = Model.getInstance();//invoke constructor to readXML
+
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-			        Model model = Model.getInstance();
-			        //model.readXml();
-					AlarmClockDesign frame = new AlarmClockDesign();
+					acd = new AlarmClockDesign();
 
 					//when the jframe closes, save what ever is in the model to xml.
-					frame.addWindowListener(new WindowAdapter() {
+					acd.addWindowListener(new WindowAdapter() {
 						/**
 						 * Invoked when a window is in the process of being closed.
 						 * The close operation can be overridden at this point. Saves any alarms in the model to xml.
@@ -68,6 +70,7 @@ public class AlarmClockDesign extends JFrame {
 				}
 			}
 		});
+
 	}
 
 	public static AlarmClockDesign getInstance() {
@@ -76,12 +79,7 @@ public class AlarmClockDesign extends JFrame {
 	        }
 	        return acd;
 	 }
-	Timer SimpleTimer = new Timer(1000, new ActionListener() {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			updateTimeDisplay();
-		}
-	});
+
 
 	ActionListener actionListener = new ActionListener() {
   	  public void actionPerformed(ActionEvent e) {
@@ -106,21 +104,47 @@ public class AlarmClockDesign extends JFrame {
 	 private void createFrameOptions() {
 	        frame = new JFrame("Alarm Clock");
 	        frame.getContentPane().add(createMainPanel());
-	        createTimer(); //must follow main panel creation
 	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	        frame.setResizable(true);
 	        frame.pack();
 	        frame.setLocationRelativeTo(null); //Centers frame. Must follow pack()
 	        frame.setVisible(true);
+
+		 //run code every second to update the clock
+		 ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
+		 exec.scheduleAtFixedRate(new Runnable() {
+			 @Override
+			 public void run() {
+			 	Date curDate = new Date();
+				 currentTime.setText(String.format("%tT", curDate));
+				 Alarm alarm = (Alarm) alarmList.getSelectedItem();
+				 if(alarm != null){
+				 	Date alarmDate = alarm.getDate();
+				 	long difference = alarmDate.getTime()-curDate.getTime();
+				 	long milliSecLeft = new Date(difference).getTime();
+				 	long totSecs = milliSecLeft/1000;
+				 	long hours = totSecs/3600; totSecs %= 3600;
+				 	long minutes = totSecs/60;totSecs %= 60;
+				 	long seconds = totSecs;
+
+					 alarmTime.setText(String.format("%02d:%02d:%02d", hours,minutes,seconds));
+				 }
+
+			 }
+		 }, 0, 1, TimeUnit.SECONDS);
 	 }
-	 public void addAlarmlist(String item) {
+	 public void addAlarmlist(Alarm item) {
 		 alarmList.addItem(item);
+
 	 }
 	 private JComboBox createAlarmList() {
 	        alarmList = new JComboBox<>();
 	        alarmList.addActionListener(eventHandler);
 	        alarmList.setActionCommand("List");
 	        alarmList.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+	        //populate the dropdown list the the current alarms.
+	        for(Alarm a : Model.getInstance().getAlarms())
+	        	alarmList.addItem(a);
 	        return alarmList;
 	 }
 	 private JPanel createTimePanel() {
@@ -153,14 +177,6 @@ public class AlarmClockDesign extends JFrame {
 	        return timePanel;
 	    }
 
-	 private void updateTimeDisplay() {
-	        String tempTime = String.format("%tT", new Date());
-	        if (time24Mode) {
-	            currentTime.setText(tempTime);
-	        } else {
-	            currentTime.setText(String.format("%tr", new Date()));
-	        }
-	    }
 	 private JPanel createButtonPanel() {
 	        JPanel buttonPanel = new JPanel();
 		    newAlarm.setFont(new Font("Arial", Font.BOLD, 10));
@@ -186,11 +202,8 @@ public class AlarmClockDesign extends JFrame {
 	        return mainPanel;
 	    }
 
-	    private void createTimer() {
-	        Timer timer = new Timer(1000, eventHandler);
-	        timer.setActionCommand("Timer");
-	        timer.setInitialDelay(0);
-	        timer.start();
-	    }
 
+	public JComboBox<Alarm> getAlarmList() {
+		return alarmList;
+	}
 }

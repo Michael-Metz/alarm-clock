@@ -51,6 +51,9 @@ public class Model {
             System.out.println("can't write xml");
         }
     }
+    public ArrayList<Alarm> getAlarms(){
+        return alarms;
+    }
 
 
     //Input Output methods below

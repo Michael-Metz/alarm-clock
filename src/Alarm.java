@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -9,6 +10,9 @@ import java.util.TimerTask;
 public class Alarm {
 
     private static Timer timer = new Timer();
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private static SimpleDateFormat timeFormat = new SimpleDateFormat("HH-mm-ss");
+
     private Date date;
     private String message;
     private int snoozeCount;
@@ -53,6 +57,33 @@ public class Alarm {
     }
 
     /**
+     * If alarm is more then a day away it just returns the date
+     * If alarm is less then a day away it returns the time
+     *
+     * followed the first few characters of the message.
+     * @return
+     */
+    public String toString(){
+        StringBuilder str = new StringBuilder();
+        Date d = new Date();
+        if(date.getTime() - d.getTime() >= 1440000){
+            //more then a day
+            str.append(dateFormat.format(date));
+        }else {
+            //less than a day
+            str.append(timeFormat.format(date));
+        }
+        str.append(" : ");
+        if(message.length() < 15)
+            str.append(message);
+        else {
+            str.append(message.substring(0, 14));
+            str.append("...");
+
+        }
+        return str.toString();
+    }
+    /**
      * private inner class of alarm that handles sechudling timers to trigger
      */
     private class AlarmTimerTask extends TimerTask {
@@ -80,7 +111,10 @@ public class Alarm {
             } else if (choice == 1) {
                 //dismiss
                 Model db = Model.getInstance();
+                AlarmClockDesign gui =  AlarmClockDesign.getInstance();
                 Alarm thisAlarm = getInstance();
+                //remove alarm from the model and the gui drop down list
+                gui.getAlarmList().removeItem(thisAlarm);
                 db.removeAlarm(thisAlarm);
             }
         }

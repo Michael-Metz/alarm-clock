@@ -14,7 +14,7 @@ import java.util.Date;
 /**
  * Created by michael on 11/14/17.
  */
-public class TimedAlarmInput implements KeyListener{
+public class TimedAlarmInput implements KeyListener, ActionListener{
     private JFrame frame;
     private JTextField messageTextField, numMinutesTextField;
     private JButton addBtn = new JButton("Add");
@@ -57,34 +57,12 @@ public class TimedAlarmInput implements KeyListener{
         frame.getContentPane().add(lblMessageoptional);
 
 
-        addBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                //input is validated already
-                int minutes = Integer.parseInt(numMinutesTextField.getText());
-                Date date = new Date();//based on current time
-                date.setTime(date.getTime() + (minutes * 60000));
-                System.out.println("new alarm added for " + date + ", " + messageTextField.getText());
-
-
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-                Date addDate = new Date();
-                String dateString = dateFormat.format(date);
-                AlarmClockDesign.getInstance().addAlarmlist(dateString);
-
-                Model.getInstance().addAlarm(new Alarm(date, messageTextField.getText()));
-                frame.setVisible(false);
-            }
-        });
+        addBtn.addActionListener(this);
         addBtn.setBounds(97, 227, 89, 23);
         frame.getContentPane().add(addBtn);
-        addBtn.setEnabled(false);
 
         JButton button = new JButton("Cancel");
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                frame.setVisible(false);
-            }
-        });
+        button.addActionListener(this);
         button.setBounds(245, 227, 89, 23);
         frame.getContentPane().add(button);
 
@@ -93,6 +71,32 @@ public class TimedAlarmInput implements KeyListener{
         frame.setVisible(true);
     }
 
+    //button listener
+    /**
+     * Invoked when an action occurs.
+     *
+     * @param e the event to be processed
+     */
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+       if(e.getSource().equals(addBtn)){
+           int minutes = Integer.parseInt(numMinutesTextField.getText());
+           Date date = new Date();//based on current time
+           date.setTime(date.getTime() + (minutes * 60000));
+           System.out.println("new alarm added for " + date + ", " + messageTextField.getText());
+
+
+           Alarm newAlarm = new Alarm(date, messageTextField.getText());
+           Model.getInstance().addAlarm(newAlarm);
+           AlarmClockDesign.getInstance().addAlarmlist(newAlarm);
+       }
+
+       //at the end of a add or cancel button press we close the frame.
+        frame.setVisible(false);
+    }
+
+    //keyListener
     /**
      * Invoked when a key has been typed.
      * See the class description for {@link KeyEvent} for a definition of

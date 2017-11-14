@@ -91,13 +91,15 @@ public class NewAlarm {
 				Date addDate = new Date();
 				try {
 					addDate = dateFormat.parse(dateS);
-					//Model.getInstance().readXml();
-					AlarmClockDesign.getInstance().addAlarmlist(dateS);
+					Alarm newAlarm = new Alarm(addDate, textField.getText());
+					Model.getInstance().addAlarm(newAlarm);
+					AlarmClockDesign.getInstance().addAlarmlist(newAlarm);
 				} catch (ParseException e1) {
 
 					e1.printStackTrace();
 				}
-				Model.getInstance().addAlarm(new Alarm(addDate, textField.getText()));
+
+
 				frame.setVisible(false);
 			}
 		});
