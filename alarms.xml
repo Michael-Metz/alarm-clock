@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<alarms>
+	<alarm>
+		<date>2017-11-11-15-56-36</date>
+		<message>0</message>
+		<snoozecount>0</snoozecount>
+	</alarm>
+	<alarm>
+		<date>2017-11-11-15-56-38</date>
+		<message>1</message>
+		<snoozecount>0</snoozecount>
+	</alarm>
+	<alarm>
+		<date>2017-11-11-15-56-40</date>
+		<message>2</message>
+		<snoozecount>0</snoozecount>
+	</alarm>
+	<alarm>
+		<date>2017-11-11-15-56-42</date>
+		<message>3</message>
+		<snoozecount>0</snoozecount>
+	</alarm>
+</alarms>
