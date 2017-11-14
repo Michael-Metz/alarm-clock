@@ -58,7 +58,7 @@ public class Alarm {
 
         /**
          * This method is called when the alarm is triggered.
-         */
+         */  
         public void run() {
             if (snoozeCount != 0)
                 options[0] = "Snooze(" + snoozeCount + ")";
@@ -67,7 +67,7 @@ public class Alarm {
             choice = JOptionPane.showOptionDialog(null, "Alarm", "alaram", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[1]);
 
             //handle choice
-            if (choice == 0) {
+            if (choice == 0) {  
                 //snooze current alarm and set it for 1 minute from now
                 snoozeCount++;
                 Date snooze = new Date();
