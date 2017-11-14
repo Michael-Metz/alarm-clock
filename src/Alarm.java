@@ -1,4 +1,9 @@
 import javax.swing.*;
+import java.applet.Applet;
+import java.applet.AudioClip;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Timer;
@@ -12,6 +17,9 @@ public class Alarm {
     private static Timer timer = new Timer();
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     private static SimpleDateFormat timeFormat = new SimpleDateFormat("HH-mm-ss");
+    private static final String AUDIO_PATH ="res/alarm.wav";
+    private  AudioClip clip = null;
+
 
     private Date date;
     private String message;
@@ -25,6 +33,13 @@ public class Alarm {
         this.date = date;
         this.message = message;
         this.snoozeCount = snoozeCount;
+        URL clipLocation = null;
+        try {
+            clipLocation = new File(AUDIO_PATH).toURI().toURL();
+            clip = Applet.newAudioClip(clipLocation);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
         setAlarm();
     }
 
@@ -95,6 +110,8 @@ public class Alarm {
         public void run() {
             if (snoozeCount != 0)
                 options[0] = "Snooze(" + snoozeCount + ")";
+            if(clip != null)
+                clip.loop();
 
             int choice = -1;
             choice = JOptionPane.showOptionDialog(null, message, "Alarm", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[1]);
@@ -117,6 +134,7 @@ public class Alarm {
                 gui.getAlarmList().removeItem(thisAlarm);
                 db.removeAlarm(thisAlarm);
             }
+            clip.stop();
         }
     }
 }

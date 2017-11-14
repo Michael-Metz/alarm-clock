@@ -88,7 +88,7 @@ public class NewAlarm {
 
 
 				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-				Date addDate = new Date();
+				Date addDate;
 				try {
 					addDate = dateFormat.parse(dateS);
 					Alarm newAlarm = new Alarm(addDate, textField.getText());
