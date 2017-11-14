@@ -10,6 +10,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Date;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -24,6 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 import java.awt.Insets;
@@ -35,12 +38,9 @@ public class AlarmClockDesign extends JFrame {
 	private JPanel contentPane;
 	private JFrame frame;
     private JComboBox<String> alarmList;
-    private JLabel remainingTime, currentTime, alarmTime;
+    private JLabel currentTime, alarmTime;
     private final boolean time24Mode = false; //Indicates 24H (true) or 12H (false) time
-    JButton onOffButton = new JButton("Alarm Off");
     JButton newAlarm = new JButton("New Alarm");
-    JButton edit = new JButton("Edit");
-    JButton delete = new JButton("Delete");
     
 	/**
 	 * Launch the application.
@@ -52,26 +52,23 @@ public class AlarmClockDesign extends JFrame {
 			        Model model = Model.getInstance();
 			        //model.readXml();
 					AlarmClockDesign frame = new AlarmClockDesign();
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
 	}
-
+	Timer SimpleTimer = new Timer(1000, new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			updateTimeDisplay();
+		}
+	});
 	ActionListener actionListener = new ActionListener() {
   	  public void actionPerformed(ActionEvent e) {
-  	    if(e.getSource() == onOffButton) {
-  	    	
-  	    }
-  	    else if(e.getSource() == newAlarm) {
+  		if(e.getSource() == newAlarm) {
   	    	NewAlarm alarmPanel = new NewAlarm();
-  	    }
-  	    else if(e.getSource() == edit) {
-  	    	
-  	    }
-  	    else if(e.getSource() == delete) {
-  	    	
   	    }
   	  }
 	};
@@ -117,31 +114,22 @@ public class AlarmClockDesign extends JFrame {
 	        alarmTime.setPreferredSize(new Dimension(164, 40));
 	        alarmTime.setOpaque(false);
 	        alarmTime.setBorder(BorderFactory.createTitledBorder("Alarm Time"));
-	        
-	        remainingTime = new JLabel("00:00:00", SwingConstants.CENTER);
-	        remainingTime.setFont(remainingTime.getFont().deriveFont(36.0f));
-	        remainingTime.setPreferredSize(new Dimension(164, 80));
-	        remainingTime.setOpaque(true);
-	        remainingTime.setBorder(BorderFactory.createTitledBorder("Remaining Time"));
-	        	        
-	        GridBagConstraints c = new GridBagConstraints();
-	        c.anchor = GridBagConstraints.WEST;
-	        c.insets = new Insets(0, 0, 0, 5);
-	        c.gridx = 0;
-	        c.gridy = 0;
-	        c.gridheight = 2;
-	        c.fill = GridBagConstraints.VERTICAL;
-	        timePanel.add(remainingTime, c);
+	        GridBagConstraints a = new GridBagConstraints();
+	        a.insets = new Insets(0, 0, 5, 5);
+	        a.gridx = 0;
+	        a.gridy = 0;
+	        timePanel.add(alarmTime, a);
 	        GridBagConstraints b = new GridBagConstraints();
+	        b.insets = new Insets(0, 0, 5, 0);
+	        b.gridy = 0;
 	        b.gridx = 1;
 	        b.gridheight = 1;
 	        b.fill = GridBagConstraints.NONE;
 	        timePanel.add(currentTime, b);
-	        GridBagConstraints a = new GridBagConstraints();
-	        a.gridy = 1;
-	        timePanel.add(alarmTime, a);
+	        
 	        return timePanel;
 	    }
+	 
 	 private void updateTimeDisplay() {
 	        String tempTime = String.format("%tT", new Date());
 	        if (time24Mode) {
@@ -152,21 +140,10 @@ public class AlarmClockDesign extends JFrame {
 	    }
 	 private JPanel createButtonPanel() {
 	        JPanel buttonPanel = new JPanel();
-	        
-	        onOffButton.setFont(new Font("Arial", Font.BOLD, 10));
-		    onOffButton.addActionListener(actionListener);
-		    onOffButton.setPreferredSize(new Dimension(88, 26)); 
 		    newAlarm.setFont(new Font("Arial", Font.BOLD, 10));
 		    newAlarm.addActionListener(actionListener);
-		    edit.setFont(new Font("Arial", Font.BOLD, 10));
-		    edit.addActionListener(actionListener);
-		    delete.setFont(new Font("Arial", Font.BOLD, 10));
-		    delete.addActionListener(actionListener);
 		    
 		    buttonPanel.add(newAlarm);
-		    buttonPanel.add(edit);
-	        buttonPanel.add(onOffButton); //Not anonymous; button text changes
-	        buttonPanel.add(delete);
 	        return buttonPanel;
 	    }
 	 private JPanel createMainPanel() {

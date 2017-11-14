@@ -20,7 +20,7 @@ public class Model {
     private String xmlFilePath = "alarms.xml";
 
     private Model() {
-        alarms = new ArrayList<>(4);
+        alarms = new ArrayList<>();
     }
 
     /**
