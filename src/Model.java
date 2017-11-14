@@ -19,9 +19,6 @@ public class Model {
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
     private String xmlFilePath = "alarms.xml";
 
-    /**
-     * private constructor
-     */
     private Model() {
         alarms = new ArrayList<>(6);
         readXml();
