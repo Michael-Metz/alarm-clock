@@ -34,7 +34,9 @@ public class AlarmClockDesign extends JFrame {
     private JLabel currentTime, alarmTime;
     private final boolean time24Mode = false; //Indicates 24H (true) or 12H (false) time
     JButton newAlarm = new JButton("New Alarm");
-    private static AlarmClockDesign acd;
+	JButton newTimedAlarm = new JButton("New Timed Alarm");
+
+	private static AlarmClockDesign acd;
 
 	/**
 	 * Launch the application.
@@ -67,7 +69,8 @@ public class AlarmClockDesign extends JFrame {
 			}
 		});
 	}
-	 public static AlarmClockDesign getInstance() {
+
+	public static AlarmClockDesign getInstance() {
 	        if (acd == null) {
 	            acd = new AlarmClockDesign();
 	        }
@@ -79,11 +82,14 @@ public class AlarmClockDesign extends JFrame {
 			updateTimeDisplay();
 		}
 	});
+
 	ActionListener actionListener = new ActionListener() {
   	  public void actionPerformed(ActionEvent e) {
-  		if(e.getSource() == newAlarm) {
+  		if(e.getSource().equals(newAlarm)) {
   	    	NewAlarm alarmPanel = new NewAlarm();
-  	    }
+  	    }else if(e.getSource().equals(newTimedAlarm)){
+  			TimedAlarmInput timedAlarmPanel = new TimedAlarmInput();
+		}
   	  }
 	};
 
@@ -161,6 +167,10 @@ public class AlarmClockDesign extends JFrame {
 		    newAlarm.addActionListener(actionListener);
 
 		    buttonPanel.add(newAlarm);
+
+		 	newTimedAlarm.setFont(new Font("Arial", Font.BOLD, 10));
+		 	newTimedAlarm.addActionListener(actionListener);
+		    buttonPanel.add(newTimedAlarm);
 	        return buttonPanel;
 	    }
 	 private JPanel createMainPanel() {
