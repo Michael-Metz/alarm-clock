@@ -37,17 +37,17 @@ public class NewAlarm {
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		
+
 		JLabel lblNewLabel = new JLabel("New Alarm");
 		lblNewLabel.setBounds(0, 11, 434, 21);
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		frame.getContentPane().add(lblNewLabel);
-		
+
 		JLabel lblNewLabel_1 = new JLabel("Date");
 		lblNewLabel_1.setBounds(117, 43, 46, 14);
 		frame.getContentPane().add(lblNewLabel_1);
-		
+
 		//time
 		Date date = new Date();
 		SpinnerDateModel sm = new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
@@ -56,14 +56,14 @@ public class NewAlarm {
 	    	timeSpinner.setEditor(timeEditor);
 	    	timeSpinner.setBounds(232, 68, 163, 30);
 			frame.getContentPane().add(timeSpinner);
-	    //date	
+	    //date
 		JDateChooser dateChooser = new JDateChooser();
 		dateChooser.setDateFormatString("YYYY-MM-dd");
 		dateChooser.setBounds(29, 68, 189, 30);
 		frame.getContentPane().add(dateChooser);
-		
-		
-		
+
+
+
 		JLabel lblTime = new JLabel("Time");
 		lblTime.setBounds(300, 43, 46, 14);
 		frame.getContentPane().add(lblTime);
@@ -72,13 +72,13 @@ public class NewAlarm {
 		textField.setBounds(232, 134, 163, 21);
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
-		
+
 		JLabel lblMessageoptional = new JLabel("Message (optional)");
 		lblMessageoptional.setHorizontalAlignment(SwingConstants.CENTER);
 		lblMessageoptional.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblMessageoptional.setBounds(232, 109, 163, 14);
 		frame.getContentPane().add(lblMessageoptional);
-		
+
 		JButton btnAdd = new JButton("Add");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -93,7 +93,7 @@ public class NewAlarm {
 					//Model.getInstance().readXml();
 					AlarmClockDesign.getInstance().addAlarmlist(dateS);
 				} catch (ParseException e1) {
-					
+
 					e1.printStackTrace();
 				}
 				Model.getInstance().addAlarm(new Alarm(addDate, textField.getText()));
@@ -102,7 +102,7 @@ public class NewAlarm {
 		});
 		btnAdd.setBounds(97, 227, 89, 23);
 		frame.getContentPane().add(btnAdd);
-		
+
 		JButton button = new JButton("Cancel");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -111,8 +111,8 @@ public class NewAlarm {
 		});
 		button.setBounds(245, 227, 89, 23);
 		frame.getContentPane().add(button);
-		
-		
+
+
         frame.setLocationRelativeTo(null); //Centers frame. Must follow pack()
         frame.setVisible(true);
 	}

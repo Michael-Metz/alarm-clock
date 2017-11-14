@@ -48,7 +48,9 @@ public class Alarm {
     public int getSnoozeCount() {
         return snoozeCount;
     }
-
+    public Alarm getInstance(){
+        return this;
+    }
 
     /**
      * private inner class of alarm that handles sechudling timers to trigger
@@ -58,7 +60,7 @@ public class Alarm {
 
         /**
          * This method is called when the alarm is triggered.
-         */  
+         */
         public void run() {
             if (snoozeCount != 0)
                 options[0] = "Snooze(" + snoozeCount + ")";
@@ -67,16 +69,20 @@ public class Alarm {
             choice = JOptionPane.showOptionDialog(null, "Alarm", "alaram", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[1]);
 
             //handle choice
-            if (choice == 0) {  
+            if (choice == 0) {
                 //snooze current alarm and set it for 1 minute from now
                 snoozeCount++;
                 Date snooze = new Date();
                 snooze.setTime(60000 + snooze.getTime());
                 setDate(snooze);
                 setAlarm();
+                Model.getInstance().save();
             } else if (choice == 1) {
                 //dismiss
                 //todo remove time  the alarm from the array
+                Model db = Model.getInstance();
+                Alarm thisAlarm = getInstance();
+                db.removeAlarm(thisAlarm);
             }
         }
     }

@@ -42,7 +42,7 @@ public class AlarmClockDesign extends JFrame {
     private final boolean time24Mode = false; //Indicates 24H (true) or 12H (false) time
     JButton newAlarm = new JButton("New Alarm");
     private static AlarmClockDesign acd;
-    
+
 	/**
 	 * Launch the application.
 	 */
@@ -53,7 +53,7 @@ public class AlarmClockDesign extends JFrame {
 			        Model model = Model.getInstance();
 			        //model.readXml();
 					AlarmClockDesign frame = new AlarmClockDesign();
-					
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -79,14 +79,14 @@ public class AlarmClockDesign extends JFrame {
   	    }
   	  }
 	};
-	
+
 	class EventHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            
+
         }
     }
-  
+
 	public AlarmClockDesign() {
 		createFrameOptions();
 	}
@@ -112,13 +112,13 @@ public class AlarmClockDesign extends JFrame {
 	 }
 	 private JPanel createTimePanel() {
 	        JPanel timePanel = new JPanel(new GridBagLayout());
-	        
+
 	        currentTime = new JLabel(String.format("%tT", new Date()),SwingConstants.CENTER);
 	        currentTime.setFont(currentTime.getFont().deriveFont(16.0f));
 	        currentTime.setPreferredSize(new Dimension(164, 40));
 	        currentTime.setOpaque(false);
 	        currentTime.setBorder(BorderFactory.createTitledBorder("Current Time"));
-	        
+
 	        alarmTime = new JLabel("00:00:00", SwingConstants.CENTER);
 	        alarmTime.setFont(alarmTime.getFont().deriveFont(16.0f));
 	        alarmTime.setPreferredSize(new Dimension(164, 40));
@@ -136,10 +136,10 @@ public class AlarmClockDesign extends JFrame {
 	        b.gridheight = 1;
 	        b.fill = GridBagConstraints.NONE;
 	        timePanel.add(currentTime, b);
-	        
+
 	        return timePanel;
 	    }
-	 
+
 	 private void updateTimeDisplay() {
 	        String tempTime = String.format("%tT", new Date());
 	        if (time24Mode) {
@@ -152,7 +152,7 @@ public class AlarmClockDesign extends JFrame {
 	        JPanel buttonPanel = new JPanel();
 		    newAlarm.setFont(new Font("Arial", Font.BOLD, 10));
 		    newAlarm.addActionListener(actionListener);
-		    
+
 		    buttonPanel.add(newAlarm);
 	        return buttonPanel;
 	    }
