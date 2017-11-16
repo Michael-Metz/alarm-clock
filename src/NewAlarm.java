@@ -1,23 +1,14 @@
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import java.awt.BorderLayout;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
-
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
-
 import com.toedter.calendar.JDateChooser;
-import javax.swing.JRadioButton;
-import com.toedter.calendar.JCalendar;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
@@ -35,7 +26,7 @@ public class NewAlarm {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("New Alarm");
@@ -45,38 +36,40 @@ public class NewAlarm {
 		frame.getContentPane().add(lblNewLabel);
 
 		JLabel lblNewLabel_1 = new JLabel("Date");
-		lblNewLabel_1.setBounds(117, 43, 46, 14);
+		lblNewLabel_1.setBounds(207, 161, 46, 14);
 		frame.getContentPane().add(lblNewLabel_1);
 
 		//time
 		Date date = new Date();
 		SpinnerDateModel sm = new SpinnerDateModel(date, null, null, Calendar.HOUR_OF_DAY);
 		JSpinner timeSpinner = new javax.swing.JSpinner(sm);
-	    	JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(timeSpinner, "HH:mm:ss");
-	    	timeSpinner.setEditor(timeEditor);
-	    	timeSpinner.setBounds(232, 68, 163, 30);
-			frame.getContentPane().add(timeSpinner);
-	    //date
+		JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(timeSpinner, "HH:mm:ss");
+		timeSpinner.setEditor(timeEditor);
+		timeSpinner.setBounds(135, 120, 163, 30);
+		frame.getContentPane().add(timeSpinner);
+		//date
 		JDateChooser dateChooser = new JDateChooser();
 		dateChooser.setDateFormatString("YYYY-MM-dd");
-		dateChooser.setBounds(29, 68, 189, 30);
+		dateChooser.setBounds(119, 186, 189, 30);
+		Date dateS = new Date();
+		dateChooser.setDate(dateS);
 		frame.getContentPane().add(dateChooser);
 
 
 
 		JLabel lblTime = new JLabel("Time");
-		lblTime.setBounds(300, 43, 46, 14);
+		lblTime.setBounds(203, 95, 46, 14);
 		frame.getContentPane().add(lblTime);
 
 		textField = new JTextField();
-		textField.setBounds(232, 134, 163, 21);
+		textField.setBounds(135, 68, 163, 21);
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
 
 		JLabel lblMessageoptional = new JLabel("Message (optional)");
 		lblMessageoptional.setHorizontalAlignment(SwingConstants.CENTER);
 		lblMessageoptional.setHorizontalTextPosition(SwingConstants.CENTER);
-		lblMessageoptional.setBounds(232, 109, 163, 14);
+		lblMessageoptional.setBounds(135, 43, 163, 14);
 		frame.getContentPane().add(lblMessageoptional);
 
 		JButton btnAdd = new JButton("Add");
@@ -116,7 +109,7 @@ public class NewAlarm {
 		frame.getContentPane().add(button);
 
 
-        frame.setLocationRelativeTo(null); //Centers frame. Must follow pack()
-        frame.setVisible(true);
+		frame.setLocationRelativeTo(null); //Centers frame. Must follow pack()
+		frame.setVisible(true);
 	}
 }

@@ -118,7 +118,8 @@ public class AlarmClockDesign extends JFrame {
 			 	Date curDate = new Date();
 				 currentTime.setText(String.format("%tT", curDate));
 				 Alarm alarm = (Alarm) alarmList.getSelectedItem();
-				 if(alarm != null){
+				 if(alarm != null)
+				 {
 				 	Date alarmDate = alarm.getDate();
 				 	long difference = alarmDate.getTime()-curDate.getTime();
 				 	long milliSecLeft = new Date(difference).getTime();
@@ -129,7 +130,9 @@ public class AlarmClockDesign extends JFrame {
 
 					 alarmTime.setText(String.format("%02d:%02d:%02d", hours,minutes,seconds));
 				 }
-
+				if(alarmList.getItemCount() == 0){
+				 	alarmTime.setText("00:00:00");
+				}
 			 }
 		 }, 0, 1, TimeUnit.SECONDS);
 	 }

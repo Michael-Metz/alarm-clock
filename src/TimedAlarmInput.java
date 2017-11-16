@@ -25,7 +25,7 @@ public class TimedAlarmInput implements KeyListener, ActionListener{
     private void initialize() {
         frame = new JFrame();
         frame.setBounds(100, 100, 450, 300);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         frame.getContentPane().setLayout(null);
 
         JLabel lblNewLabel = new JLabel("Alarm Will Go Off In \"x\" Minutes");

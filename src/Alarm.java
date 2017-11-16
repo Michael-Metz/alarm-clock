@@ -125,8 +125,8 @@ public class Alarm {
                 setDate(snooze);
                 setAlarm();
                 Model.getInstance().save();
-            } else if (choice == 1) {
-                //dismiss
+            } else if (choice == 1 || choice == JOptionPane.CLOSED_OPTION) {
+                //dismiss button or clicking the red X to close the window
                 Model db = Model.getInstance();
                 AlarmClockDesign gui =  AlarmClockDesign.getInstance();
                 Alarm thisAlarm = getInstance();

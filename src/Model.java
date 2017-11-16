@@ -217,7 +217,7 @@ public class Model {
         }
         catch (FileNotFoundException e)
         {
-            System.out.println("we dont have a xml file that can be read");
+//            System.out.println("we dont have a xml file that can be read, creating new xml file ");
         }
         catch (XMLStreamException e)
         {
